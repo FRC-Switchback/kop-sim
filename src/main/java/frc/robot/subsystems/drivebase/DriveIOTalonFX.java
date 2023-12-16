@@ -52,6 +52,9 @@ public class DriveIOTalonFX implements DrivebaseInterface {
         leftFollower.setNeutralMode(NeutralMode.Coast);
         rightFollower.setNeutralMode(NeutralMode.Coast);
 
+        rightLeader.setInverted(true);
+        rightFollower.setInverted(true);
+
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
 //        leftLeader.getConfigurator().apply(config);
