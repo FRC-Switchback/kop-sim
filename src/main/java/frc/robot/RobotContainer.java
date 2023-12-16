@@ -6,8 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.drivebase.DrivebaseInterface;
 import frc.robot.subsystems.drivebase.DrivebaseLogic;
 
 public class RobotContainer {
@@ -23,6 +25,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return new RunCommand(
+            () -> DrivebaseLogic.instance.ArcadeDrive(1, 0)
+    ).withTimeout(1);
   }
 }

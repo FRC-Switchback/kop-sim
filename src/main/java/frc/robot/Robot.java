@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.drivebase.DriveIOTalonFX;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -16,12 +17,13 @@ import frc.robot.subsystems.drivebase.DrivebaseSimInterface;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
+  private Boolean hasntRanAuto = true;
 
   private RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
-    new DrivebaseLogic(new DrivebaseSimInterface());
+    new DrivebaseLogic(new DriveIOTalonFX());
     m_robotContainer = new RobotContainer();
 
     Logger.getInstance().addDataReceiver(new WPILOGWriter(""));
@@ -48,9 +50,11 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null && hasntRanAuto) {
       m_autonomousCommand.schedule();
     }
+
+    hasntRanAuto = false;
   }
 
   @Override
